@@ -6,6 +6,10 @@ import timesSliceReducer from '../src/clock/features/timesSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
+import {
+  createHashRouter,
+  RouterProvider
+} from 'react-router-dom';
 
 
 
@@ -15,10 +19,17 @@ const times = configureStore({
   }
 })
 
+const router = createHashRouter([
+  {
+    path: "/*",
+    element: <App />,
+  }
+]);
+
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={times}>
-      <App />
+    <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 )
