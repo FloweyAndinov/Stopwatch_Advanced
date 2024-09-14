@@ -8,7 +8,10 @@ import { Provider } from 'react-redux'
 import React from 'react'
 import {
   createHashRouter,
-  RouterProvider
+  HashRouter,
+  Route,
+  RouterProvider,
+  Routes
 } from 'react-router-dom';
 
 
@@ -19,17 +22,16 @@ const times = configureStore({
   }
 })
 
-const router = createHashRouter([
-  {
-    path: "/*",
-    element: <App />,
-  }
-]);
 
 createRoot(document.getElementById('root')!).render(
+  
   <React.StrictMode>
     <Provider store={times}>
-    <RouterProvider router={router} />
+    <HashRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+    </Routes>
+    </HashRouter>
     </Provider>
   </React.StrictMode>
 )
