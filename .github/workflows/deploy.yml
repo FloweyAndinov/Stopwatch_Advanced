@@ -2,12 +2,7 @@ name: Deploy
 
 on:
   push:
-<<<<<<< Updated upstream
-    branches:
-      - master
-=======
     branches: ['master']
->>>>>>> Stashed changes
 
   workflow_dispatch:
 
