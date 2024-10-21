@@ -4,10 +4,11 @@ import { defineConfig } from "vite"
 
 export default defineConfig({
   plugins: [react()],
+  base: "/Stopwatch_Advanced",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      base: "/Stopwatch_Advanced"
+      
     },
   },
 })
