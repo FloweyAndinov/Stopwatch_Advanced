@@ -6,13 +6,15 @@ import { Separator } from "@/components/ui/separator"
 import { useSelector } from 'react-redux'
 
 
+
+
 function Offsets() {
 
     let offsets : Array<string> = useSelector((state: any) => state.times.offsets)
 
   return (
     <>
-    <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
+    <ScrollArea className="rounded-md border p-4" style={{minWidth:'7rem', width:'20vh', maxWidth:'8rem'}}>
       <div className="flex flex-col gap-1">
 
         <Separator />
@@ -22,6 +24,7 @@ function Offsets() {
           <div key={key} className="flex items-center justify-between">
             <span className="text-sm">{value}</span>
           </div>
+          
         ))}
         </div>
     </ScrollArea>

@@ -32,12 +32,17 @@ function ClockActions() {
 
 
   return (
-    <div style={{display:'flex', flexFlow:'row', justifyContent:'left', gap:'0.5rem'}}>
-        {!running ? <Button variant={'ghost'} onClick={() => { setRunning(true); dispatch(startClock())}}><Play style={{color:'hsl(var(--primary))'}} /></Button> : <Button variant={'ghost'} onClick={() => { setRunning(false); dispatch(pauseClock());}}><Pause style={{color:'hsl(var(--primary))'}} /></Button>}
-        <Button variant={'ghost'} onClick={() => dispatch(resetClock())}><RotateCcw /></Button>
-        <Button onClick={offsetTime}>Offset</Button>
-        <Input ref={offsetRef} placeholder="Add offset" style={{width:'5rem'}}/>
+   <div style={{display:'flex', flexFlow:'column', gap:'1.5rem'}}>
+    <div style={{display:'flex', flexFlow:'row', justifyContent:'center', gap:'2rem'}}>
+        {!running ? <Button variant={'ghost'} style={{width:'5rem', height:'5rem'}} onClick={() => { setRunning(true); dispatch(startClock())}}><Play style={{color:'hsl(var(--primary))', height:'inherit', width:'inherit'}} /></Button> : <Button variant={'ghost'} style={{width:'5rem', height:'5rem'}} onClick={() => { setRunning(false); dispatch(pauseClock());}}><Pause style={{color:'hsl(var(--primary))' , height:'inherit', width:'inherit'}} /></Button>}
+        <Button variant={'ghost'} style={{width:'5rem', height:'5rem'}} onClick={() => dispatch(resetClock())}><RotateCcw style={{height:'inherit', width:'inherit'}}/></Button>
+        
         </div>
+        <div style={{display:'flex', flexFlow:'row', justifyContent:'center', gap:'0.5rem'}}>
+            <Button onClick={offsetTime}>Offset</Button>
+            <Input ref={offsetRef} placeholder="Add offset" style={{width:'10rem'}}/>
+        </div>
+   </div>
   )
 }
 
