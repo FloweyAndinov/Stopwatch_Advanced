@@ -5,7 +5,7 @@ import Offsets from '../offsets/Offsets'
 
 
 function OffsetToggle() {
-    const [menu, setMenu] = useState(false)
+    const [menu, setMenu] = useState(true)
 
   return (
     menu ? 
