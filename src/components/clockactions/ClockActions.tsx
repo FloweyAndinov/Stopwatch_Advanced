@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { useEffect, useRef, useState } from 'react'
 import { startClock, pauseClock, addOffset, resetClock} from '@/clock/features/timesSlice'
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ function ClockActions() {
 
     const offsetRef = useRef<HTMLInputElement>(null)
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let reset = useSelector((state: any) => state.times.started)
 
     

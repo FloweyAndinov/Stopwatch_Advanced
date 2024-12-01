@@ -1,18 +1,45 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button';
 import { ThemeProvider } from './components/theme-provider';
-import Clock from './components/clock/Clock';
-import Offsets from './components/offsets/Offsets';
-import IRLtime from './components/irltime/IRLtime';
-import OffsetToggle from './components/offset_toggle/OffsetToggle';
+import Test from './components/Test';
+import StatsSection from './components/stats/StatsSection';
+import ClockSection from './components/clockSection/ClockSection';
+import { useEffect, useState } from 'react';
 
 function App() {
 
+
+  
+  useEffect(() => {
+    const handleScroll = (event: { deltaY: number; }) => {
+      // Get scroll direction
+      if (event.deltaY > 0) {
+        // Scroll down
+          scrollToSection("stats");
+      } else {
+        // Scroll up
+          scrollToSection("clock");
+      }
+    };
+
+    // Add event listener for scrolling
+    window.addEventListener("wheel", handleScroll);
+
+    return () => {
+      window.removeEventListener("wheel", handleScroll); // Clean up the listener
+    };
+  }, []);
+
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-     <Clock/>
-    <OffsetToggle/>
-    <IRLtime/>
+      <ClockSection/>
+      <StatsSection/>
     </ThemeProvider>
     
   )

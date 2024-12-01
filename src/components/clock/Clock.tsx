@@ -1,15 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-const */
 import { useEffect, useState } from 'react'
 import { finishReset} from '@/clock/features/timesSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import ClockActions from '../clockactions/ClockActions'
+import {useLocalStorage} from 'usehooks-ts'
 
 
 function Clock() {
 
     const dispatch = useDispatch()
 
-    const [finalTime, setFinalTime] = useState(0)
+    const [finalTime, setFinalTime] = useLocalStorage('finalTime', 0)
     const [finalms, setFinalMs] = useState(0)
     const [negative, setNegative] = useState(false)
 
@@ -28,9 +32,9 @@ function Clock() {
     let lastStart = useSelector((state: any) => state.times.lastStart)
 
     let elapsedCleanTime = useSelector((state: any) => state.times.elapsedCleanTime)
-    useEffect(() => {
+    useEffect(() => { // handle the clock while running
         const interval = setInterval(() => {
-            if (started && running) { // handle the clock while running
+            if (started && running) { 
                 // current time - start time + offset
                 setFinalTime(Math.floor(((Date.now()- lastStart) + (elapsedCleanTime) - offset) / 1000))
                 setFinalMs(Math.abs(Math.floor(((Date.now()- lastStart) + (elapsedCleanTime) - offset) / 100 % 10)))
@@ -40,7 +44,7 @@ function Clock() {
         return () => clearInterval(interval)
     }, [started, running, offset, startTime, cleanTime])
 
-    useEffect(() => {
+    useEffect(() => {// reset the clock
             setFinalTime(0)
             setFinalMs(0)
             dispatch(finishReset());
