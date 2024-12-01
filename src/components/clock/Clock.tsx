@@ -110,8 +110,7 @@ function Clock() {
     }
 
   return (
-    <>
-        <div style={{position:'absolute', top:'50%', right:'50%', transform:'translate(50%, -50%)'}}>
+        <div style={{position:'relative', top:'50vh', left:'50vw', width:'fit-content', transform:'translate(-50%, -50%)'}}>
         <div style={{display:'flex', flexFlow:'row nowrap space-between'}}>
             <span className='text-9xl'>{negative ? '-' : ''}</span>
             <span className="text-9xl font-bold">{displayHours()}:
@@ -120,10 +119,9 @@ function Clock() {
             </span>
             <div style={{display:'flex', flexDirection:'column-reverse', marginBottom:'0.25rem'}}><span className="text-4xl ">{finalms}</span></div>
         </div>
-        <ClockActions/>
+        {/* <ClockActions/> */}
         </div>
         
-    </>
   )
 }
 

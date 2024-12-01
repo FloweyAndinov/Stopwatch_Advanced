@@ -3,6 +3,7 @@ import Test from './components/Test';
 import StatsSection from './components/stats/StatsSection';
 import ClockSection from './components/clockSection/ClockSection';
 import { useEffect, useState } from 'react';
+import Commands from './components/commands/Commands';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <ClockSection/>
       <StatsSection/>
+      <Commands/>
     </ThemeProvider>
     
   )
