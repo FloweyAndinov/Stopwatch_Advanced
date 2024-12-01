@@ -16,7 +16,7 @@ function HelpToggle() {
   return (
     <Drawer>
         <DrawerTrigger asChild>
-    <BadgeHelp className='cursor-pointer' style={{position: 'relative', color:'hsl(var(--primary))', float: 'right', top: '75vh',transform: 'translateY(-50%)', right: '2em', height:'3.5em', width:'auto'}} />
+    <BadgeHelp className='cursor-pointer' style={{position: 'absolute', color:'hsl(var(--primary))', float: 'right', top: '90vh',transform: 'translateY(-50%)', right: '2em', height:'3.5em', width:'auto'}} />
         </DrawerTrigger>
         <HelpDrawer/>
     </Drawer>

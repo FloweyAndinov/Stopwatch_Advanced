@@ -4,6 +4,7 @@ import StatsSection from './components/stats/StatsSection';
 import ClockSection from './components/clockSection/ClockSection';
 import { useEffect, useState } from 'react';
 import Commands from './components/commands/Commands';
+import { Separator } from '@radix-ui/react-separator';
 
 function App() {
 

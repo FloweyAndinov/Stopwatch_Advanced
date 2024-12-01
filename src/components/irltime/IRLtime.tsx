@@ -13,7 +13,7 @@ function IRLtime() {
   }, []);
 
   return (
-    <div className='text-center' style={{position: 'relative', top: '75vh', left: '50%', transform: 'translate(-50%, -50%)', height:'5em', alignContent:'center', width:'fit-content'}}>
+    <div className='text-center' style={{position: 'absolute', top: '90vh', left: '50%', transform: 'translate(-50%, -50%)', height:'5em', alignContent:'center', width:'fit-content'}}>
       <span className="text-6xl">{value.toLocaleTimeString()}</span>
     </div>
   );

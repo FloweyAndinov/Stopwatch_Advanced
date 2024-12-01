@@ -1,120 +1,80 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 import { createSlice } from "@reduxjs/toolkit"
+import { configureStore } from '@reduxjs/toolkit';
 
-export interface Times{
+interface Stopwatch {
+    id: number | undefined;
+    elapsedCleanTime: number;
+    startTime: number;
+    offsetTime: number;
+    lastStart: number;
+    lastPause: number;
+    offsets: string[];
+    started: boolean;
+    running: boolean;
+    reset: boolean;
+  }
 
-    elapsedCleanTime : number // clean => no offsets
-
-
-
-    startTime: number
-    offsetTime: number
-
-
-    lastStart: number
-    lastPause: number
-
-    // subTimes: Map<number,number>
-
-
-    offsets: Array<string>
-
-    started : boolean
-
-    running : boolean
-
-    reset : boolean
-
+interface DailyTime {
+    stopwatches: Stopwatch[];
+    day: string; // Store the day as a string in 'YYYY-MM-DD' format
+    sessionTime: number;
+    loggedTime: number;
+    breakTime: number;
+    id : number
 }
 
-const initialState: Times = {
 
-    elapsedCleanTime: 0,
+const initialStopwatchState: Stopwatch = {
+  id: 0,
+  elapsedCleanTime: 0,
+  startTime: 0,
+  offsetTime: 0,
+  lastStart: 0,
+  lastPause: 0,
+  offsets: [],
+  started: false,
+  running: false,
+  reset: false,
+};
 
-
-    startTime: 0, // start timestamp
-    offsetTime: 0, // total offset time
-
-
-
-    // helper variables for subtimes
-    lastStart: 0, // last start time
-    lastPause: 0, // last pause time
-
-    // sum of subtimes
-    // subTimes: new Map(),
-
-    // array of offsets
-    offsets: [],
-
-    started : false,
-
-    running : false,
-
-    reset : false
-
-}
-
-export const timesSlice = createSlice({
-    name: "times",
-    initialState,
-    reducers: { 
-        startClock: (state) => { 
-            if (state.started === false) {
-                state.startTime  = Date.now()
-                state.started = true
-            }
-            state.lastStart = Date.now()
-            state.running = true
-        },
-        pauseClock: (state) => {
-            state.lastPause = Date.now()
-            // state.subTimes.set(state.lastStart, state.lastPause)
-            state.elapsedCleanTime += state.lastPause - state.lastStart
-            state.running = false
-        },
-        addOffset: (state, action) => {
-
-            let input : string = action.payload;
-            
-            let lastChar = input.slice(-1);
-
-            switch (lastChar) {
-                case 's':
-                    state.offsetTime -= parseInt(input.slice(0, -1)) * 1000
-                    state.offsets.push(input.slice(0, -1) + " seconds")
-                    break
-                case 'm':
-                    state.offsetTime -= parseInt(input.slice(0, -1)) * 1000 * 60
-                    state.offsets.push(input.slice(0, -1) + " minutes")
-                    break
-                case 'h':
-                    state.offsetTime -= parseInt(input.slice(0, -1)) * 1000 * 60 * 60
-                    state.offsets.push(input.slice(0, -1) + " hours")
-                    break
-                default:
-                    console.error("Invalid input")
-            }
+const initialState: DailyTime = {
+  id: 0,
+  stopwatches: [],
+  day: new Date().toISOString().split('T')[0], // Default to today's date
+  sessionTime: 0,
+  loggedTime: 0,
+  breakTime: 0,
+};
+console.log(initialState.day)
+const timesSlice = createSlice({
+  name: "times",
+  initialState,
+  reducers: {
+    addStopwatch(state, action) {
+      state.stopwatches.push({ ...initialStopwatchState, id: state.stopwatches.length });
     },
-
-    resetClock : (state) => {
-        state.lastStart = 0
-        state.lastPause = 0
-        // state.subTimes = new Map()
-        state.elapsedCleanTime = 0
-        state.startTime = 0
-        state.offsetTime = 0
-        state.lastPause = 0
-        state.offsets = []
-        state.started = false
-        state.reset = true
+    removeStopwatch(state, action) {
+      state.stopwatches = state.stopwatches.filter((stopwatch) => stopwatch.id !== action.payload);
     },
+    updateStopwatch(state, action) {
+      state.stopwatches = state.stopwatches.map((stopwatch) => {
+        if (stopwatch.id === action.payload.id) {
+          return { ...stopwatch, ...action.payload };
+        }
+        return stopwatch;
+      });
+    },
+    resetStopwatches(state) {
+      state.stopwatches = [];
+    },
+    setDay(state, action) {
+      state.day = action.payload;
+    },
+  },
+});
 
-    finishReset : (state) => {
-        state.reset = false
-    }
-    }
-})
+export const { addStopwatch, removeStopwatch, updateStopwatch, resetStopwatches, setDay } = timesSlice.actions;
+export default timesSlice.reducer;
 
-export const { startClock, pauseClock, addOffset, resetClock, finishReset} = timesSlice.actions
-
-export default timesSlice.reducer
