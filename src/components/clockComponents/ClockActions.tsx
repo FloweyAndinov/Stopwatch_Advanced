@@ -5,6 +5,8 @@ import { Play, Pause, RotateCcw, Check } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { ClockContext } from './ClockParent';
+import { useDispatch } from 'react-redux';
+import { addClock } from '../../clock/features/timesSlice';
 
 // interface ClockActionsProps {
 //     propid: string;
@@ -20,12 +22,12 @@ function ClockActions() {
     throw new Error("ClockActions must be used within a ClockParent");
   }
 
-  const {running, setRunning, setStartTime, setOffsetTime, setCompleted, completed } = context;
+  const {running, setRunning, setStartTime, setOffsetTime, setCompleted, completed, finalTime} = context;
   
     const offsetRef = useRef<HTMLInputElement>(null);
   
   
-  
+    let dispatch = useDispatch();
 
     function offsetTime() {
       if (offsetRef.current) {
@@ -55,6 +57,7 @@ function ClockActions() {
     function completedClock() {
       setRunning(false);
       setCompleted(true);
+      dispatch(addClock(finalTime));
     }
 
   

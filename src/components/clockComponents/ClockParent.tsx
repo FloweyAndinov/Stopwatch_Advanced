@@ -3,6 +3,8 @@
 import { createContext, useEffect, useState } from 'react'
 import ClockActions from './ClockActions'
 import ClockDisplay from './ClockDisplay'
+import ClockTitle from './ClockTitle';
+
 
 interface ClockContextType {
     running: boolean;
@@ -17,7 +19,7 @@ interface ClockContextType {
     setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   }
 
-export const ClockContext = createContext<ClockContextType | null>(null!); //wtf!
+export const ClockContext = createContext<ClockContextType | null>(null);
 
 function ClockParent() {
 
@@ -38,7 +40,7 @@ function ClockParent() {
       const interval = setInterval(() => {
           if (running) { // clock is running
               let time = Math.round((Date.now() - startTime - pauseTime + offsetTime) / 1000)
-              console.log(Date.now() , startTime, offsetTime, time)
+            //   console.log(Date.now() , startTime, offsetTime, time)
               setFinalTime(time)
           }
           else if (startTime === 0) {
@@ -75,6 +77,7 @@ function ClockParent() {
             running,
             setRunning,
             completed, setCompleted}}>
+                <ClockTitle/>
         <ClockDisplay/>
         <ClockActions/>
         </ClockContext.Provider>
