@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { useContext, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Play, Pause, RotateCcw } from 'lucide-react';
+import { useContext, useRef,} from 'react'
+import { Play, Pause, RotateCcw, Check } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { ClockContext } from './ClockParent';
@@ -11,14 +10,20 @@ import { ClockContext } from './ClockParent';
 //     propid: string;
 //   }
 
-function ClockActions() {
-  
 
-  const {running, setRunning, setStartTime, setOffsetTime } = useContext(ClockContext);
+
+function ClockActions() {
+
+  const context = useContext(ClockContext);
+  
+  if (!context) {
+    throw new Error("ClockActions must be used within a ClockParent");
+  }
+
+  const {running, setRunning, setStartTime, setOffsetTime, setCompleted, completed } = context;
   
     const offsetRef = useRef<HTMLInputElement>(null);
   
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   
   
 
@@ -47,12 +52,17 @@ function ClockActions() {
       setRunning(false);
     }
 
+    function completedClock() {
+      setRunning(false);
+      setCompleted(true);
+    }
+
   
     return (
       <div style={{ display: 'flex', flexFlow: 'column', gap: '1.5rem' }}>
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center', gap: '2rem' }}>
           {!running ? (
-            <Button
+            <Button disabled={completed}
               variant={'ghost'}
               style={{ width: '5rem', height: '5rem' }}
               onClick={() => {
@@ -62,7 +72,7 @@ function ClockActions() {
               <Play style={{ color: 'hsl(var(--primary))', height: 'inherit', width: 'inherit' }} />
             </Button>
           ) : (
-            <Button
+            <Button disabled={completed}
               variant={'ghost'}
               style={{ width: '5rem', height: '5rem' }}
               onClick={() => {
@@ -72,17 +82,25 @@ function ClockActions() {
               <Pause style={{ color: 'hsl(var(--primary))', height: 'inherit', width: 'inherit' }} />
             </Button>
           )}
-          <Button
+          <Button disabled={completed}
             variant={'ghost'}
             style={{ width: '5rem', height: '5rem' }}
             onClick={resetTime}
           >
             <RotateCcw style={{ height: 'inherit', width: 'inherit' }} />
           </Button>
+
+          <Button disabled={completed}
+            variant={'ghost'}
+            style={{ width: '5rem', height: '5rem' }}
+            onClick={completedClock}
+          >
+            <Check style={{ height: 'inherit', width: 'inherit', color: 'green' }} />
+          </Button>
         </div>
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center', gap: '0.5rem' }}>
-          <Button onClick={offsetTime}>Offset</Button>
-          <Input ref={offsetRef} placeholder="Add offset" style={{ width: '10rem' }} />
+          <Button disabled={completed} onClick={offsetTime}>Offset</Button>
+          <Input disabled={completed} ref={offsetRef} placeholder="Add offset" style={{ width: '10rem' }} />
         </div>
       </div>
     );

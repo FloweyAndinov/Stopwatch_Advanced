@@ -1,9 +1,13 @@
-import React, { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { ClockContext } from './ClockParent'
 
 function ClockDisplay() {
+    const context = useContext(ClockContext)
 
-    const {finalTime} = useContext(ClockContext)
+    if (!context) {
+        throw new Error("ClockDisplay must be used within a ClockParent")
+    }
+    const {finalTime, completed} = context
 
     function displayHours(finalTime : number) {
         let hours : number
@@ -55,14 +59,24 @@ function ClockDisplay() {
   return (
     <>
     {/* <span className='text-9xl'>{negative ? '-' : ''}</span> */}
-    <span className="text-9xl font-bold">
-        {displayHours(finalTime)}:
-        {displayMinutes(finalTime)}:
-        {displaySeconds(finalTime)}
-    </span>
+    
     <div style={{display:'flex', flexDirection:'column-reverse', marginBottom:'0.25rem'}}>
                 {/* <span className="text-4xl ">{finalms}</span> */}
     </div>
+
+    {completed?
+        <span className="text-9xl font-bold text-green-900">
+        {displayHours(finalTime)}:
+        {displayMinutes(finalTime)}:
+        {displaySeconds(finalTime)}
+        </span> 
+        :
+        <span className="text-9xl font-bold ">
+        {displayHours(finalTime)}:
+        {displayMinutes(finalTime)}:
+        {displaySeconds(finalTime)}
+        </span>
+    }
     </>
   )
 }
