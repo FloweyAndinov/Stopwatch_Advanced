@@ -26,17 +26,6 @@ function ClockCarousel() {
    }
   }
 
-  useEffect(() => { 
-       if (emblaApi) 
-        emblaApi.on('slidesInView', () => {
-        //   console.log(emblaApi.selectedScrollSnap())
-        //   expandCarousel(emblaApi.selectedScrollSnap())
-        console.log(emblaApi.slideNodes())
-        })
-        },
-        
-         // eslint-disable-next-line react-hooks/exhaustive-deps
-         [emblaApi])
   return (
     <div>
         <Carousel className="max-w-3xl" opts={{ dragFree: false, }} ref={emblaRef}>
