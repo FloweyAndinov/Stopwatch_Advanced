@@ -46,6 +46,17 @@ function SettingsDialog() {
   }
 
 
+  function GenerateDefaultBreaks() {
+    const defaultBreaks = [
+      { id: 0, start: "10:15", end: "10:25" },
+      { id: 1, start: "11:50", end: "12:30" },
+      { id: 2, start: "14:30", end: "14:40" },
+      { id: 3, start: "16:00", end: "16:10" }
+    ];
+    
+    setBreaksState(defaultBreaks);
+  }
+
   function SubmitSettings() {
     console.log("submitting")
    
@@ -85,7 +96,7 @@ function SettingsDialog() {
     <div className="flex items-center space-x-2">
       <div>Breaks</div>
       <Button variant="secondary" style={{width:'3rem'}} onClick={() => AddBreak()}><Plus style={{width:'auto', height:'auto'}}/></Button>
-      
+      <Button variant="default" className='w-20' onClick={() => GenerateDefaultBreaks()}>Default</Button>
     </div>
 
     <div className='flex-column space-y-3'>
@@ -105,13 +116,13 @@ function SettingsDialog() {
         <div className="flex items-center space-x-2" key={breakItem.id}>
           <Input className='w-20'
             id="link"
-            defaultValue={defaultBreakStart}
+            defaultValue={breakItem.start || defaultBreakStart}
             onChange={(e) => UpdateBreakStart(breakItem.id, e.target.value)}
           />
           <span>-</span>
           <Input className='w-20'
             id="link"
-            defaultValue={defaultBreakEnd}
+            defaultValue={breakItem.end || defaultBreakEnd}
             onChange={(e) => UpdateBreakEnd(breakItem.id, e.target.value)}
           />
           <Button variant="destructive" style={{width:'3rem'}} onClick={() => DeleteBreak(breakItem.id)}>X</Button>
