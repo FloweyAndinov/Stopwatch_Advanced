@@ -36,13 +36,13 @@ function ClockActions() {
           const lastChar = offsetVal.slice(-1);
           const offsetNum = parseFloat(offsetVal.slice(0, -1));
           if (lastChar === 's') {
-            setOffsetTime(offsetNum * 1000);
+            setOffsetTime(prev => prev + offsetNum * 1000);
           } else if (lastChar === 'm') {
-            setOffsetTime(offsetNum * 60 * 1000);
+            setOffsetTime(prev => prev + offsetNum * 60 * 1000);
           } else if (lastChar === 'h') {
-            setOffsetTime(offsetNum * 60 * 60 * 1000);
+            setOffsetTime(prev => prev + offsetNum * 60 * 60 * 1000);
           } else {
-            setOffsetTime(offsetNum);
+            setOffsetTime(prev => prev + offsetNum);
           }
         }
       }
@@ -58,7 +58,7 @@ function ClockActions() {
       setRunning(false);
       setCompleted(true);
       dispatch(addClock(finalTime));
-    }
+    }        
 
   
     return (

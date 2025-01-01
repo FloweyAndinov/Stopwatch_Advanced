@@ -30,31 +30,30 @@ function ClockParent() {
     const [running, setRunning] = useState(false);  
     const [pauseTime, setPauseTime] = useState(0);
     const [lastPause, setlastPause] = useState(0);
-    const [offsets, setOffsets] = useState<string[]>([]);
     const [completed, setCompleted] = useState(false);
     
     useEffect(() => {
         if (running && startTime === 0) {
             setStartTime(Date.now()); // start the clock
         }
-      const interval = setInterval(() => {
-          if (running) { // clock is running
-              let time = Math.round((Date.now() - startTime - pauseTime + offsetTime) / 1000)
-            //   console.log(Date.now() , startTime, offsetTime, time)
-              setFinalTime(time)
-          }
-          else if (startTime === 0) {
-              setFinalTime(0)
-              clearInterval(interval)
-          }
-          else {
+        const interval = setInterval(() => {
+            if (running) { // clock is running
+                let time = Math.round((Date.now() - startTime - pauseTime + offsetTime) / 1000)
+                setFinalTime(time)
+            }
+            else if (startTime === 0) { // clock is not running and not started
+                setFinalTime(Math.round(offsetTime / 1000))
+            }
+            else if (!running && startTime !== 0) {
+                // When paused, calculate the frozen time
+                let lastTime = Math.round((lastPause - startTime - pauseTime + offsetTime) / 1000)
+                setFinalTime(lastTime)
+            }
+        }, 100)
+        return () => {
             clearInterval(interval)
-          }
-      }, 100)
-      return () => {
-          clearInterval(interval)
-      }
-  }, [offsetTime, running, startTime, pauseTime])
+        }
+    }, [offsetTime, running, startTime, pauseTime, lastPause])
 
     useEffect(() => {
         if (!running && startTime !== 0) {
